@@ -57,17 +57,18 @@ IMPORTANT RULES:
 - Search knowledge base ONLY for questions about specific uploaded documents
 - Use web search ONLY for recent news or real-time data not available in context
 """)]
-while True:
-    user_input=input("You: ")
-    if user_input.lower()=="exit":
-        save_conversation_memory(messages,"default")
-        break
-    past_memories=search_conversation_memory(user_input,"default")
+if __name__=="__main__":
+    while True:
+        user_input=input("You: ")
+        if user_input.lower()=="exit":
+            save_conversation_memory(messages,"default")
+            break
+        past_memories=search_conversation_memory(user_input,"default")
 
-    if past_memories:
-        messages.append(SystemMessage(content=f"Relavant context from past conversation:\n{past_memories}"))
+        if past_memories:
+            messages.append(SystemMessage(content=f"Relavant context from past conversation:\n{past_memories}"))
     
-    messages.append(HumanMessage(content=user_input))
-    result=agent.invoke({"messages":messages})
-    messages=result["messages"]
-    print("Agent:",result["messages"][-1].content)
+        messages.append(HumanMessage(content=user_input))
+        result=agent.invoke({"messages":messages})
+        messages=result["messages"]
+        print("Agent:",result["messages"][-1].content)
